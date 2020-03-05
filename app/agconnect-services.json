@@ -1,0 +1,12 @@
+{
+	"client":{
+		"cp_id":"890852200000000072",
+		"product_id":"9105385871708517864",
+		"client_id":"310132078584792192",
+		"client_secret":"B4AAAB7B7C61C45C1DE83E20F95CD91EE1B7C4911185A7CABB0BE16E96177E9E",
+		"app_id":"101805943",
+		"package_name":"com.huawei.pinyouraddressonmap",
+		"api_key":"CV6HEyZY0L2TnG6WU1O8l9PasOGmq4WnC7Y5vhTCv3t0HbyzdN9sHtFP3klzq7jmw6TtitP82TR70eMSHdDRgO/Q2CnY"
+	},
+	"configuration_version":"1.0"
+}

@@ -1,4 +1,4 @@
-package com.huawei.pinyouraddress
+package com.huawei.pinyouraddressonmap
 
 import org.junit.Test
 

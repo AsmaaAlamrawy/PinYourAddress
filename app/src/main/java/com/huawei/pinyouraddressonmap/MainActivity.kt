@@ -1,4 +1,4 @@
-package com.huawei.pinyouraddress
+package com.huawei.pinyouraddressonmap
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

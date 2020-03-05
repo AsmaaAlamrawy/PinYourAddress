@@ -1,4 +1,4 @@
-package com.huawei.pinyouraddress
+package com.huawei.pinyouraddressonmap
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
