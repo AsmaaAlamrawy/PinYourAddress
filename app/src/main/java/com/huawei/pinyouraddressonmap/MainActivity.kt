@@ -15,7 +15,13 @@ import com.huawei.hms.maps.MapView
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import android.util.Log
-import kotlinx.android.synthetic.main.activity_main.*
+import android.content.IntentSender
+import com.huawei.hms.common.ResolvableApiException
+import com.huawei.hms.common.ApiException
+import com.huawei.hmf.tasks.OnFailureListener
+import com.huawei.hmf.tasks.OnSuccessListener
+import android.os.Looper
+import com.huawei.hms.location.*
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -38,14 +44,61 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val MAPVIEW_BUNDLE_KEY = "MapViewBundleKey"
 
+    private var mLocationRequest: LocationRequest? = null
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (!hasPermissions(this, RUNTIME_PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, RUNTIME_PERMISSIONS, REQUEST_CODE);
         }
+        val fusedLocationProviderClient : FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        val settingsClient = LocationServices.getSettingsClient(this)
+        var mLocationallback: LocationCallback? =null
+        val builder = LocationSettingsRequest.Builder()
+        mLocationRequest = LocationRequest()
+        builder.addLocationRequest(mLocationRequest)
+        val locationSettingsRequest = builder.build()
+//check Location Settings
+        settingsClient.checkLocationSettings(locationSettingsRequest)
+            .addOnSuccessListener {
+                //Have permissions， send requests
+                fusedLocationProviderClient.requestLocationUpdates(mLocationRequest,mLocationallback,
+                    Looper.getMainLooper())
+                    .addOnSuccessListener {
+
+                    }
+
+            }
+            .addOnFailureListener { e ->
+                //Settings do not meet targeting criteria
+                val statusCode = (e as ApiException).statusCode
+                when (statusCode) {
+                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {
+                        val rae = e as ResolvableApiException
+                        //Calling startResolutionForResult can pop up a window to prompt the user to open the corresponding permissions
+                        rae.startResolutionForResult(this@MainActivity, 0)
+                    } catch (sie: IntentSender.SendIntentException) {
+                        //…
+                    }
+
+                }
+            }
+
+        mLocationallback = object : LocationCallback(){
+            override fun onLocationResult(locationResult: LocationResult?) {
+                super.onLocationResult(locationResult)
+                if (locationResult != null) {
+                    //Process the location callback result.
+                    Log.d("Location","got location")
+                }
+            }
+
+        }
         //get mapview instance
-        mMapView = findViewById(R.id.mapView) as MapView
+        mMapView = findViewById(R.id.mapView)
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY)
@@ -55,9 +108,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mMapView!!.getMapAsync(this)
     }
 
+
     override fun onMapReady(map: HuaweiMap?) {
-        Log.d(TAG, "onMapReady: ");
+        Log.d(TAG, "onMapReady: ")
         hMap = map;
+        hMap!!.isMyLocationEnabled = true// Enable the my-location overlay.
+        hMap!!.uiSettings.isMyLocationButtonEnabled = true
     }
 
     override fun onStart() {
@@ -83,6 +139,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
         mMapView!!.onResume()
+    }
+
+    public override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        var mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY)
+        if (mapViewBundle == null) {
+            mapViewBundle = Bundle()
+            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle)
+        }
+        mMapView!!.onSaveInstanceState(mapViewBundle)
     }
 
     private fun hasPermissions(context: Context, runtimePermissions: Array<String>): Boolean {
