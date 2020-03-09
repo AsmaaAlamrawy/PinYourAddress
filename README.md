@@ -5,25 +5,16 @@ This README would normally document whatever steps are necessary to get your app
 ### What is this repository for? ###
 
 * Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+a demo app called pin your address on the map, to integrate Huawei map kit and location kit
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* clone the repository
+* open the project using android studio
+* Build the project
+* Run the App on a Huawei Mobile Device with Android API 4.4 or higher
 
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
 
 ### Who do I talk to? ###
 
-* Repo owner or admin
-* Other community or team contact
+* Repo owner or admin : Asmaa Alamrawy , asmaamrawy95@gmail.com
