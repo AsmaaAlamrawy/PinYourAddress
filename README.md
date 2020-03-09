@@ -13,6 +13,10 @@ This README would normally document whatever steps are necessary to get your app
 * Build the project
 * Run the App on a Huawei Mobile Device with Android API 4.4 or higher
 
+### Where to find documentation of the code? ###
+
+* You can check this file for a simple documentation of the project: https://drive.google.com/file/d/1KHwo_EwCmhgJBcTOPYke7OYuGzSQQ8qv/view?usp=sharing
+
 
 ### Who do I talk to? ###
 
