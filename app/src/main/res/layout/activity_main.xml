@@ -14,6 +14,6 @@
         map:uiZoomControls="true"
         map:cameraTargetLat="48.893478"
         map:cameraTargetLng="2.334595"
-        map:cameraZoom="8.5"
+        map:cameraZoom="10"
         />
 </LinearLayout>
